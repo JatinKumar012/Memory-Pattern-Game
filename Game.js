@@ -1,10 +1,11 @@
 let gameSeq = [];
 let userSeq = [];
+let btns = ['green', 'pink', "blue", "orange"];
 
 let started = false; 
 let level = 0;
 
-let btns = ['green', 'pink', "blue", "yellow"];
+
 
 let h3 = document.querySelector('h3');
 
@@ -18,11 +19,11 @@ document.addEventListener("keypress" , function(){
 });
 
 function gameFlash(btns){
-    btns.classList.add("gameflash"); 
+    btns.classList.add("flash"); 
 
     setTimeout(function () {
-        btns.classList.remove('gameflash');
-    }, 300);
+        btns.classList.remove('flash');
+    }, 250);
 }
 
 
@@ -34,6 +35,7 @@ function userFlash(btns){
     }, 300);
 }
 function levelUp(){
+    userSeq = [];
     level++;
     h3.innerText = `Level ${level}`;
     
@@ -48,34 +50,42 @@ function levelUp(){
     gameFlash(randombtn);
 }
 
-function checkAnswer() {
-    //console.log("Current level" , level);
-
-    let index = level-1;
+function checkAnswer(index) {
     if(userSeq[index]===gameSeq[index]){
-        console.log("same color");
+        if(userSeq.length == gameSeq.length){
+            setTimeout(levelUp, 1000);
+        }
     }else{
-        h3.innerText = "Game Over! Press any key to start";
+        h3.innerHTML = `Game Over! Your score was <b>${level}</b> <br> Press any key to start`;
+        document.querySelector("body").style.backgroundColor="red";
+        setTimeout(function (){
+            document.querySelector("body").style.backgroundColor="white";
+        }, 150)
+        reset();
+
     }
 }
 
 function btnPress () {
-    console.log("button was pressed");
-    console.log(this);
     let btn = this;
-    //gameFlash(btn);
     userFlash(btn);
 
     userColor = btn.getAttribute("id");
-    console.log(userColor);
-
     userSeq.push(userColor);
 
-    checkAnswer(); 
+    checkAnswer(userSeq.length-1); 
 
 }
 
 let allbtns = document.querySelectorAll('.btn');
 for(btn of allbtns){
     btn.addEventListener('click', btnPress);
+}
+
+function reset() {
+   started = false;
+   gameSeq = [];
+   userSeq  = [];
+   level = 0;
+
 }
