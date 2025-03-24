@@ -31,7 +31,6 @@ h1,h3{
 body{
     text-align: center;
     background: linear-gradient(135deg, #647de1, #eabb65, #14b41c);
-    background-image: "https://kidmons.com/assets/img/games/1200x630/simon.jpg";
     height: 100vh;
     display: flex;
     flex-direction: column;
